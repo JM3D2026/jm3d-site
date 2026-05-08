@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JM3D | Impression 3D & Gravure Laser</title>
+    <style>
+        :root {
+            --bleu-fond: #05386b;
+            --vert-accent: #5cdb95;
+            --blanc-casse: #edf5e1;
+            --blanc-pur: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: var(--blanc-casse); color: #333; line-height: 1.6; }
+        html { scroll-behavior: smooth; }
+
+        /* --- NAVIGATION --- */
+        nav { background: var(--bleu-fond); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+        .nav-logo { color: var(--vert-accent); font-weight: bold; font-size: 1.5rem; text-decoration: none; }
+        nav ul { display: flex; list-style: none; }
+        nav ul li { margin-left: 20px; }
+        nav ul li a { color: var(--blanc-casse); text-decoration: none; transition: 0.3s; }
+        nav ul li a:hover { color: var(--vert-accent); }
+
+        /* --- HERO --- */
+        .hero { background-color: var(--bleu-fond); color: var(--blanc-casse); padding: 80px 5%; text-align: center; }
+        .hero img { max-width: 300px; width: 100%; border-radius: 15px; margin-bottom: 20px; border: 3px solid var(--vert-accent); }
+        .hero h1 { font-size: 3rem; color: var(--vert-accent); margin-bottom: 10px; }
+
+        /* --- BOUTONS --- */
+        .btn { display: inline-block; padding: 12px 28px; text-decoration: none; font-weight: bold; border-radius: 50px; transition: 0.3s; margin: 10px; border: none; }
+        .btn-vert { background: var(--vert-accent); color: var(--bleu-fond); }
+        .btn-outline { border: 2px solid var(--vert-accent); color: var(--vert-accent); background: transparent; }
+        .btn:hover { transform: scale(1.05); cursor: pointer; }
+
+        /* --- ALBUMS --- */
+        .section-titre { text-align: center; padding: 60px 0 30px; font-size: 2rem; color: var(--bleu-fond); }
+        .carousel-container { max-width: 800px; position: relative; margin: 0 auto 40px; overflow: hidden; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); background: #000; }
+        .carousel-slide { width: 100%; height: 500px; position: relative; }
+        .slide { display: none; width: 100%; height: 100%; }
+        .slide.active { display: block; }
+        .slide img { width: 100%; height: 100%; object-fit: contain; cursor: zoom-in; background: #111; }
+        .caption { position: absolute; bottom: 0; background: rgba(5, 56, 107, 0.85); color: var(--vert-accent); width: 100%; padding: 15px; text-align: center; font-weight: bold; }
+        
+        .prev, .next { cursor: pointer; position: absolute; top: 50%; transform: translateY(-50%); padding: 16px; color: white; font-size: 24px; border: none; background: rgba(0,0,0,0.5); z-index: 10; }
+        .next { right: 0; }
+        .prev:hover, .next:hover { background: var(--vert-accent); color: var(--bleu-fond); }
+
+        /* --- LIGHTBOX (MODE PLEIN ÉCRAN) --- */
+        .lightbox { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); }
+        .lightbox-content { position: relative; margin: auto; top: 50%; transform: translateY(-50%); width: 90%; max-width: 1000px; text-align: center; }
+        .lightbox-content img { max-width: 100%; max-height: 85vh; border-radius: 5px; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+        
+        .close { position: absolute; top: 20px; right: 35px; color: #fff; font-size: 40px; cursor: pointer; transition: 0.3s; z-index: 2100; }
+        .close:hover { color: var(--vert-accent); }
+
+        .prev-lb, .next-lb { position: absolute; top: 50%; transform: translateY(-50%); color: white; font-size: 50px; cursor: pointer; background: none; border: none; padding: 20px; transition: 0.3s; }
+        .prev-lb { left: 10px; }
+        .next-lb { right: 10px; }
+        .prev-lb:hover, .next-lb:hover { color: var(--vert-accent); scale: 1.2; }
+
+        /* --- CONTACT --- */
+        .contact-section { background-color: var(--bleu-fond); padding: 80px 5%; }
+        .form-container { max-width: 600px; margin: 0 auto; background: var(--blanc-pur); padding: 40px; border-radius: 20px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: bold; color: var(--bleu-fond); }
+        .form-group input, .form-group textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; }
+
+        footer { text-align: center; padding: 40px; background: #042d56; color: var(--blanc-casse); }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#" class="nav-logo">JM3D</a>
+        <ul>
+            <li><a href="#accueil">Accueil</a></li>
+            <li><a href="#album3D">Impression 3D</a></li>
+            <li><a href="#albumLaser">Gravure Laser</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <header class="hero" id="accueil">
+        <img src="logo JM3D.jpg" alt="Logo JM3D">
+        <h1>JM3D</h1>
+        <p>Impression 3D & Gravure Laser de haute précision</p>
+        <a href="#album3D" class="btn btn-vert">Mes impressions 3D</a>
+        <a href="#albumLaser" class="btn btn-outline">Mes gravures Laser</a>
+    </header>
+
+    <!-- ALBUM 1 -->
+    <h2 class="section-titre" id="album3D">Album Impression 3D</h2>
+    <div class="carousel-container" id="carousel1">
+        <button class="prev" onclick="changeSlide('carousel1', -1)">&#10094;</button>
+        <div class="carousel-slide">
+            <div class="slide active"><img src="IMG_1795.jpeg" alt="3D 1"><div class="caption">Impression 1</div></div>
+            <div class="slide"><img src="IMG_1798.jpeg" alt="3D 2"><div class="caption">Impression 2</div></div>
+            <div class="slide"><img src="IMG_1821.jpeg" alt="3D 3"><div class="caption">Impression 3</div></div>
+            <div class="slide"><img src="IMG_5836.jpeg" alt="3D 4"><div class="caption">Impression 4</div></div>
+            <div class="slide"><img src="IMG_5842.jpeg" alt="3D 5"><div class="caption">Impression 5</div></div>
+        </div>
+        <button class="next" onclick="changeSlide('carousel1', 1)">&#10095;</button>
+    </div>
+
+    <!-- ALBUM 2 -->
+    <h2 class="section-titre" id="albumLaser">Album Gravure Laser</h2>
+    <div class="carousel-container" id="carousel2">
+        <button class="prev" onclick="changeSlide('carousel2', -1)">&#10094;</button>
+        <div class="carousel-slide">
+            <div class="slide active"><img src="gravure.jpeg" alt="Gravure 1"><div class="caption">Gravure 1</div></div>
+        </div>
+        <button class="next" onclick="changeSlide('carousel2', 1)">&#10095;</button>
+    </div>
+
+    <!-- ALBUM 3 -->
+    <h2 class="section-titre">Personnalisation t-shirts & mugs</h2>
+    <div class="carousel-container" id="carousel3">
+        <button class="prev" onclick="changeSlide('carousel3', -1)">&#10094;</button>
+        <div class="carousel-slide">
+            <div class="slide active"><img src="gravure 2.jpeg" alt="Personnalisation 1"><div class="caption">Personnalisation 1</div></div>
+            <div class="slide"><img src="gravure 3.jpeg" alt="Personnalisation 2"><div class="caption">Personnalisation 2</div></div>
+            <div class="slide"><img src="gravure 4.jpeg" alt="Personnalisation 3"><div class="caption">Personnalisation 3</div></div>
+        <button class="next" onclick="changeSlide('carousel3', 1)">&#10095;</button>
+    </div>
+    
+    <!-- LIGHTBOX -->
+    <div id="lightbox" class="lightbox">
+        <span class="close" onclick="closeLightbox()">&times;</span>
+        <button class="prev-lb" onclick="changeLightboxSlide(-1)">&#10094;</button>
+        <div class="lightbox-content">
+            <img id="lightbox-img" src="">
+        </div>
+        <button class="next-lb" onclick="changeLightboxSlide(1)">&#10095;</button>
+    </div>
+
+    <section class="contact-section" id="contact">
+        <div class="form-container">
+            <h2 style="text-align: center; margin-bottom: 20px; color: var(--bleu-fond);">Me contacter</h2>
+            <form action="https://formspree.io/f/xpqblwyp" method="POST">
+                <div class="form-group"><label>Nom & Prénom</label><input type="text" name="name" required></div>
+                <div class="form-group"><label>Téléphone</label><input type="tel" name="phone" required></div>
+                <div class="form-group"><label>Email</label><input type="email" name="email" required></div>
+                <div class="form-group"><label>Votre projet</label><textarea name="message" rows="4" required></textarea></div>
+                <button type="submit" class="btn btn-vert" style="width:100%;">Envoyer ma demande</button>
+            </form>
+        </div>
+    </section>
+
+    <footer><p>&copy; 2026 JM3D - Impression 3D & Gravure Laser</p></footer>
+
+    <script>
+        // --- GESTION DES CARROUSELS ---
+        const slideIndices = { 'carousel1': 0, 'carousel2': 0, 'carousel3': 0 };
+
+        function changeSlide(carouselId, direction) {
+            const container = document.getElementById(carouselId);
+            const slides = container.querySelectorAll('.slide');
+            slides[slideIndices[carouselId]].classList.remove('active');
+            slideIndices[carouselId] = (slideIndices[carouselId] + direction + slides.length) % slides.length;
+            slides[slideIndices[carouselId]].classList.add('active');
+        }
+
+        // --- GESTION DE LA LIGHTBOX ---
+        let currentLightboxImages = []; 
+        let currentLightboxIndex = 0; 
+
+        document.querySelectorAll('.slide img').forEach(img => {
+            img.onclick = function() {
+                const parentCarousel = this.closest('.carousel-container');
+                const allImagesInAlbum = Array.from(parentCarousel.querySelectorAll('.slide img'));
+                currentLightboxImages = allImagesInAlbum.map(el => el.src);
+                currentLightboxIndex = currentLightboxImages.indexOf(this.src);
+                document.getElementById("lightbox").style.display = "block";
+                updateLightboxImage();
+            }
+        });
+
+        function updateLightboxImage() {
+            document.getElementById("lightbox-img").src = currentLightboxImages[currentLightboxIndex];
+        }
+
+        function changeLightboxSlide(direction) {
+            currentLightboxIndex = (currentLightboxIndex + direction + currentLightboxImages.length) % currentLightboxImages.length;
+            updateLightboxImage();
+        }
+
+        function closeLightbox() {
+            document.getElementById("lightbox").style.display = "none";
+        }
+
+        window.onclick = function(e) {
+            if(e.target.id == "lightbox") closeLightbox();
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (document.getElementById("lightbox").style.display === "block") {
+                if (e.key === "ArrowLeft") changeLightboxSlide(-1);
+                if (e.key === "ArrowRight") changeLightboxSlide(1);
+                if (e.key === "Escape") closeLightbox();
+            }
+        });
+    </script>
+</body>
+</html>
